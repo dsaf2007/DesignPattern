@@ -1,4 +1,5 @@
 //2016112154 정동구
+//proxy 패턴으로 회원에 따라 다른 결과 출력.
 interface User {
     void checkOut();
 }
@@ -18,11 +19,11 @@ class GuestUser implements User {
 }
 
 
-interface UserProxy{
+interface UserProxy{ //Proxy interface
     User getUser();
 }
 
-class UserProxyHandler implements UserProxy{
+class UserProxyHandler implements UserProxy{ //객체에 대한 엑세스를 제어
     private boolean isUserLoggedIn;
 
     public UserProxyHandler(boolean isUserLoggendIn)
@@ -35,11 +36,11 @@ class UserProxyHandler implements UserProxy{
         User temp;
         if(isUserLoggedIn)
         {
-            temp = new AuthorizedUser();
+            temp = new AuthorizedUser();//회원
         }
         else
         {
-            temp = new GuestUser();
+            temp = new GuestUser();//비회원
         }
         return temp;
     }
@@ -49,7 +50,7 @@ public class MainClass {
     public static void main(String[] args) {
 
         //boolean isUserLoggedIn= UserManagerService.isUserLoggedIn();
-        boolean isUserLoggedIn = false;
+        boolean isUserLoggedIn = true;
         User user=new UserProxyHandler(isUserLoggedIn).getUser();
         user.checkOut();
     }
